@@ -1,0 +1,311 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    font-size: 24px;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+header {    
+    flex-flow: column wrap;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    background-color: white;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 24px;
+    background-color: #d3ffe8;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+
+  .hello-text {
+    display: flex;
+    flex-flow: column;
+    
+}
+
+.logotip{
+    display: flex;
+    align-items: center;
+}   
+
+  .wr {
+      display: flex;
+      justify-content: space-between;
+      flex-flow: row wrap;
+      align-items: center;
+      text-align: left;
+      width: 90%;
+      font-family: 'Bank', sans-serif;
+  }
+
+.logo {
+    width: 200px;
+    height: 150px;
+    margin: auto;
+}
+
+body {
+    background: linear-gradient(90deg, #aea4e3, #d3ffe8) ;
+    height: 100%;
+    
+}
+
+.wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1 1 auto;
+    min-width: 70%;
+    margin: auto;
+    padding: 2%;
+    
+}
+
+.thread-list {
+  min-width: 80%;
+
+}
+
+.pressed-button a {
+    color: white;
+    text-decoration: None;
+    font-size: 15px;
+}
+
+.pressed-button {
+    display: inline-block;
+    padding: 12px 40px;
+    border-radius: 30px;
+    color: #FFF;
+    background-image: linear-gradient(45deg, #6ab1d7 0%, #33d9de 50%, #002878 100%);
+    background-position: 100% 0;
+    background-size: 200% 200%;
+    box-shadow: 0 16px 32px 0 rgba(0, 40, 120, .35);
+    transition: .5s;
+  }
+  .pressed-button:hover {
+    box-shadow: 0 0 0 0 rgba(0, 40, 120, 0);
+    background-position: 0 0;
+  }
+
+  .registration-form {
+    text-align: left;
+      margin: 0px auto;
+    color:#515151;
+      font-family: 'Bank', cursive;
+  }
+  
+  .registration-form> p > input {
+    color: rgb(2, 49, 161);
+      border: 0;
+      width: 229px;
+      height: 32px;
+      background: url('img/text_input.png') top left no-repeat;
+  }
+  
+  .errorlist {
+    color: red;
+  }
+
+
+
+nav {
+	background-color: #42b7cc;
+}
+
+nav ul {
+	padding: 0;
+  margin: 0;
+	list-style: none;
+	position: relative;
+	}
+	
+nav ul li {
+	display:inline-block;
+	background-color: #42b7cc;
+	}
+
+nav a {
+	display:block;
+	padding:0 10px;	
+	color:#FFF;
+	font-size:20px;
+	line-height: 60px;
+	text-decoration:none;
+}
+
+nav a:hover { 
+	background-color: #000000; 
+}
+
+/* Hide Dropdowns by Default */
+nav ul ul {
+	display: none;
+	position: absolute; 
+	top: 60px; /* the height of the main nav */
+}
+	
+/* Display Dropdowns on Hover */
+nav ul li:hover > ul {
+	display:inherit;
+}
+	
+/* Fisrt Tier Dropdown */
+nav ul ul li {
+	width:170px;
+	float:none;
+	display:list-item;
+	position: relative;
+}
+
+/* Second, Third and more Tiers	*/
+nav ul ul ul li {
+	position: relative;
+	top:-60px; 
+	left:170px;
+}
+
+/* Change this in order to change the Dropdown symbol */
+li > a:after { content:  ' +'; }
+li > a:only-child:after { content: ''; }
+
+
+.section {
+  margin: auto;
+  min-width: 100%;
+  border: #000000 solid 2px;
+  align-items: center;
+  text-align: center;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.section h2 {
+font-size: 50px;
+font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+
+.section h2 a{
+  font-size: 32px;
+  text-decoration: none;
+  color: #002878;
+}
+
+.thread {
+  display: flex;
+  max-width: 89%;
+  padding: 2%;
+  border: #33d9de solid 2px;
+  margin: 1 auto;
+  align-items: center;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: #33c9e4ce;
+  justify-content: space-between;
+}
+
+.thread a {
+  text-decoration: solid;
+  font-size: 33px;
+}
+
+
+.thread a:visited {
+color: rgb(0, 0, 0);
+}
+
+
+.profile img {
+  float: left;
+  margin: 1 10 1 1;
+  max-width: 300px;
+}
+
+.post {
+  display: flex;
+  justify-content: left;
+  border: #000000 solid 1px;
+  margin: 2%;
+  max-width: 80%;
+  margin:  3 auto;
+  min-width: fit-content;
+}
+
+.user-info {
+  max-width: 15%;
+  min-width: min-content;
+  text-align: center;
+  border-right: black solid 0.5px;
+  padding: 2%;
+  background-color: white;
+}
+
+.user-info p {
+  font-size: 18px;
+  max-width: 80%;
+  text-align: center;
+}
+
+.user-info img {
+max-width: 80%;
+}
+
+.post-text {
+  margin: 5px;
+}
+
+
+.section1 {
+  margin: 1 auto;
+  max-width: 90%;
+  border: #000000 solid 2px;
+  align-items: center;
+  text-align: center;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.section1 h2 {
+font-size: 55px;
+font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.post-wrapper {
+  display: flex;
+  position: relative;
+  flex-flow: column;
+  justify-content: space-between;
+  min-width: 80;
+  
+}
+
+.post-info {
+  min-width: 100%;
+  background-color: #fff;
+}
