@@ -1,0 +1,20 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+
+<div class="thread-list">
+    <div class="section">
+        <h2>{{section.section_name}}</h2>  
+    </div>
+
+    {% for thread in thread_list %}
+    
+        <div class="thread"><a href="{% url 'arch_thread' thread.pk %}">{{ thread.thread_name }}</a>
+            <div>Количество сообщений: {{ thread.posts.count }}</div>
+        </div>
+    
+    {% endfor %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+
+<div class="thread-list">
+    <div class="section">
+        <h2>{{section.section_name}}</h2>  
+        <a href="{% url 'create_th' section.pk %}"><button class="pressed-button">Создать обсуждение</button></a>
+    </div>
+
+    {% for thread in thread_list %}
+    
+        <div class="thread"><a href="{% url 'thread' thread.pk %}">{{ thread.thread_name }}</a>
+            <div>Количество сообщений: {{ thread.posts.count }}</div>
+        </div>
+    
+    {% endfor %}
+
+</div>
+{% endblock %}

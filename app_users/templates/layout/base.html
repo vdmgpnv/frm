@@ -1,0 +1,64 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+    <meta name="viewport" content="width=1111111, initial-scale=1.0">
+    <title>{% block title %}Форум программистов{% endblock %}</title>
+</head>
+<body>
+
+   
+
+    <div class="wrapper">
+        <header>
+            <div class="wr">
+                <div class="logotip">
+                    <a href="{% url 'index' %}"><img class="logo" src="{% static 'img/logo.webp' %}" alt=""></a>
+                    <h2>Форум программистов</h2>
+                </div>
+                <div class="hello-text">
+                    {% if user.is_authenticated %}
+                    <h2>Добрый день, {{ user.first_name }}!</h2>
+                    <button class="pressed-button"><a href="{% url 'logout' %}">Выйти</a></button>
+                    {% else %}
+                    <button class="pressed-button"><a href="{% url 'login' %}">Войти</a></button>
+                    <button class="pressed-button"><a href="{% url 'register' %}">Зарегистрироваться</a></button>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="navbar">
+                <nav>
+                    <ul>
+                        <li><a href="{% url 'index' %}">Разделы</a>
+                        <ul>
+                            {% for s in sections %}
+                            <li><a href="{% url 'section' s.pk %}">{{s.section_name}}</a></li>
+                            {% endfor %}
+                        </ul>        
+                        </li>
+                        <li><a href="{% url 'archive' %}">Архив</a></li>
+                        <li><a href="{% url 'profile' %}">Профиль</a></li>
+                        <li><a href="#">Поддержать</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+            
+       
+
+        <div class="container">
+           {% block content %}
+
+            {% endblock %}
+        </div>
+            
+        <footer>
+             <p>Этот форум в качестве тестового задания</p>
+             <p>А это подвал форума</p>
+        </footer>
+    </div>
+</body>
+</html>
