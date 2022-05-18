@@ -15,7 +15,7 @@ from .models import Post, Section, Thread
 def index(request):
     d = {}
     for sec in DataMixin.sections:
-        d[sec] = Thread.objects.filter(section_id=sec.pk).annotate(cnt=Count('posts')).order_by('-cnt')[:5]
+        d[sec] = Thread.objects.filter(section_id=sec.pk).filter(is_open=True).annotate(cnt=Count('posts')).order_by('-cnt')[:5]
     context = {
         'sections' : DataMixin.sections,
         'secthread' : d
