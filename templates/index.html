@@ -6,13 +6,13 @@
     {% for sec, thread in secthread.items %}
     <div class="thread-list">
         <div class="section"><h2><a href="{% url 'section' sec.pk %}">{{sec.section_name}}</a></h2>
-            Количество тем: {{sec.thread_set.count}}
+            Количество тем: {{thread|length}}
         </div>
         
             <ul class="threads">
                 {% for t in thread %}
                 <div class="thread"><a href="{% url 'thread' t.pk %}">{{ t.thread_name }}</a>
-                <div>Количество сообщений: {{ t.posts.count }}</div>
+                <div class="post-count">Количество сообщений: {{ t.posts.count }}</div>
                 
                 </div>
                 {% endfor %}

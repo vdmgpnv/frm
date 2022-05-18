@@ -6,6 +6,8 @@
     {% for sec, thread in secthread.items %}
     <div class="thread-list">
         <div class="section"><h2><a href="{% url 'arch_section' sec.pk %}">{{sec.section_name}}</a></h2>
+		Количество тем: {{thread|length}}
+	
         </div>
         
             <ul class="threads">

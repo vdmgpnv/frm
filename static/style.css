@@ -80,7 +80,7 @@ body {
 
 .container {
     flex: 1 1 auto;
-    min-width: 70%;
+    min-width: 40%;
     margin: auto;
     padding: 2%;
     
@@ -308,4 +308,7 @@ font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 .post-info {
   min-width: 100%;
   background-color: #fff;
+}
+.post-count {
+font-size: 12px;
 }
