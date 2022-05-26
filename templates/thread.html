@@ -22,6 +22,12 @@
             </div> 
             <div class="post-info">
                 Опубликованно : {{ post.created_at }}
+                {% if post.user_id.pk == user.pk or user.is_staff %}
+                <button><a href="{% url 'delete' post.pk %}">Удалить</a></button>
+                {% endif %}
+                {% if post.user_id.pk == user.pk %}
+                <button><a href="{% url 'edit_post' post.pk %}">Изменить</a></button>
+                {% endif %}
             </div>
        </div>
     </div>

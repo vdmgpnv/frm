@@ -1,8 +1,9 @@
-
+from multiprocessing import context
+from django.urls import reverse_lazy
 from django.shortcuts import redirect, render
 from django.db.models import Count
-from django.views.generic import ListView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import ListView, UpdateView, DeleteView
+
 
 from app_users.models import AdvUser
 from .models import Section, Thread, Post
@@ -66,3 +67,39 @@ def create_thread(request, pk):
         'form' : create_thread
     }
         return render(request, 'create_thread.html', context=context)
+
+
+def delete_post(request, pk):
+    post = Post.objects.get(pk=pk)
+    thread = Thread.objects.get(pk=post.tread_id.pk)
+    posts = Post.objects.filter(tread_id=thread.pk)
+    post_form = PostForm
+    context = {
+        'sections' : DataMixin.sections,
+        'posts' : posts,
+        'form' : post_form,
+        'thread' : thread
+    } 
+    post.delete()
+    return render(request, 'thread.html', context=context)
+
+def update_post(request, pk):
+    post = Post.objects.get(pk=pk)
+    if request.method == 'Post':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post.text = form.cleaned_data['post_text']
+            post.save()
+            return redirect(f'/thread/{post.thread_id.pk}')
+    else:
+        form = PostForm(initial={'post_text' : post.text})
+        context = {
+            'sections' : DataMixin.sections,
+            'form' : form 
+        }
+        return render(request, 'update_post.html', context)
+        
+            
+    
+    
+    

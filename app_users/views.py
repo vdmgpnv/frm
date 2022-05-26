@@ -1,4 +1,3 @@
-from re import template
 from django.core.signing import BadSignature
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
@@ -91,3 +90,4 @@ def user_activate(request, sign):
         user.is_activated = True
         user.save()
     return render(request, template)
+

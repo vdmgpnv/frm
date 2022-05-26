@@ -16,3 +16,4 @@ class CreateThread(forms.Form):
     class Meta:
         fields = ('thread_name', 'post_text')
         
+    
