@@ -3,23 +3,28 @@
 {% block content %}
 
 <div class="profile">
-    {% if user.avatar %}
-    <img src="{{user.avatar.url}}">
-    {% else %}
-    <img src="{% static 'img/noava.png' %}" alt="">
-    {% endif %}
-    <p>Ваш логин: {{ user.username }}</p>
-    <p> {{ user.first_name }}</p>
-    <p>Имя: {{user.last_name}}</p>
-    <p>Ваш e-mail: {{user.email}}</p>
-    <p>Дата регистрации: {{user.date_joined}}</p>
-    {% if user.info %}
-    <p>Расскажите о себе: {{user.info | safe}}</p>
-    {% else %}
-    <p>Расскажите о себе:</p>
-    {% endif %}
-    
-    <button class="pressed-button"><a href="{% url 'update_profile' %}">Изменить информацию</a></button>
+    <div class="profile-img">
+        {% if user.avatar %}
+        <img src="{{user.avatar.url}}">
+        {% else %}
+        <img src="{% static 'img/noava.png' %}" alt="">
+        {% endif %}
+    </div>
+    <div class="profile-info">
+        <p>Ваш логин: {{ user.username }}</p>
+        <p>Ваше имя: {{ user.first_name }}</p>
+        <p>Имя: {{user.last_name}}</p>
+        <p>Ваш e-mail: {{user.email}}</p>
+        <p>Дата регистрации: {{user.date_joined}}</p>
+        {% if user.info %}
+        <p>Расскажите о себе: {{user.info | safe}}</p>
+        {% else %}
+        <p>Расскажите о себе:</p>
+        {% endif %}
+        <button class="pressed-button"><a href="{% url 'update_profile' %}">Изменить информацию</a></button>
+        <button class="pressed-button"><a href="{% url 'change_password' %}">Изменить пароль</a></button>
+</div> 
+    </div>
 </div> 
 
 {% endblock %}

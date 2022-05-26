@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-1m)brz_j=4yki964iq32ngr@b-0d#p%=2hf7ful2i1rs3z_1so
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '1solitary1.pythonanywhere.com']
+ALLOWED_HOSTS = ['1solitary1.pythonanywhere.com', '127.0.0.1', ]
 
 
 # Application definition
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'main',
     'archive',
-    'app_users'
+    'app_users',
 ]
 
 MIDDLEWARE = [
@@ -207,3 +207,12 @@ CKEDITOR_CONFIGS = {
         ]),
     }
 }
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = "solitary96@yandex.ru"
+EMAIL_HOST_PASSWORD = "123321105qQ_"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

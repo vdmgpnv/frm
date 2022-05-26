@@ -306,3 +306,17 @@ font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   min-width: 100%;
   background-color: #fff;
 }
+
+.profile {
+  display: flex;
+  flex-flow: row;
+}
+
+
+.profile-img {
+  display: flex;
+  flex-flow: column;
+  margin: 1 10 1 1;
+  max-width: 300px;
+  float: left;
+}
