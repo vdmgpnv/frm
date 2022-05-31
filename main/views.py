@@ -77,16 +77,8 @@ def create_thread(request, pk):
 def delete_post(request, pk):
     post = Post.objects.get(pk=pk)
     thread = Thread.objects.get(pk=post.tread_id.pk)
-    posts = Post.objects.filter(tread_id=thread.pk)
-    post_form = PostForm
-    context = {
-        'sections' : DataMixin.sections,
-        'posts' : posts,
-        'form' : post_form,
-        'thread' : thread
-    } 
     post.delete()
-    return render(request, 'thread.html', context=context)
+    return redirect('thread', thread.pk)
 
 def update_post(request, pk):
     post = Post.objects.get(pk=pk)
