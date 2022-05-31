@@ -2,7 +2,7 @@
 {% block title %} Изменить сообщение {% endblock %}
 
 {% block content %}
-<form class="registration-form" action="" method="post">
+<form class="registration-form" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button class="pressed-button" type="submit">Изменить</button>

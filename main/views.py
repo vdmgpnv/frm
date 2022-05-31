@@ -2,7 +2,8 @@ from multiprocessing import context
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, render
 from django.db.models import Count
-from django.views.generic import ListView, UpdateView, DeleteView
+from django.views.generic import ListView
+from django.core.paginator import Paginator
 
 
 from app_users.models import AdvUser
@@ -38,10 +39,14 @@ def thread_view(request, pk):
     posts = Post.objects.filter(tread_id=pk)
     thread = Thread.objects.get(pk=pk)
     post_form = PostForm
+    paginator = Paginator(posts, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
         'sections' : DataMixin.sections,
-        'posts' : posts,
+        'page_obj' : page_obj,
         'form' : post_form,
+        'paginator' : paginator,
         'thread' : thread
     }
     if request.method == 'POST':
@@ -85,12 +90,12 @@ def delete_post(request, pk):
 
 def update_post(request, pk):
     post = Post.objects.get(pk=pk)
-    if request.method == 'Post':
+    if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
             post.text = form.cleaned_data['post_text']
             post.save()
-            return redirect(f'/thread/{post.thread_id.pk}')
+            return redirect(f'/thread/{post.tread_id.pk}')
     else:
         form = PostForm(initial={'post_text' : post.text})
         context = {
