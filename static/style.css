@@ -320,3 +320,7 @@ font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   max-width: 300px;
   float: left;
 }
+.paginator {
+  text-align: center;
+  background-color: none;
+}
