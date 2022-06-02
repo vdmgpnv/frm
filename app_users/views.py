@@ -24,6 +24,7 @@ class UserRegistrationView(DataMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['sections'] = self.sections
+        context['search_form'] = self.search_form
         return context
 
 
@@ -35,6 +36,7 @@ class UserLoginView(DataMixin, LoginView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['sections'] = self.sections
+        context['search_form'] = self.search_form
         return context
 
 
@@ -44,7 +46,7 @@ class UserLogoutView(LogoutView):
 
 @login_required
 def profile(request):
-    return render(request, 'profile.html', {'sections': DataMixin.sections})
+    return render(request, 'profile.html', {'sections': DataMixin.sections, 'search_form' : DataMixin.search_form })
 
 
 def update_profile(request):
@@ -61,7 +63,8 @@ def update_profile(request):
         form = UpdateProfileForm(initial={'info': user.info})
         context = {
             'form': form,
-            'sections': DataMixin.sections
+            'sections': DataMixin.sections,
+            'search_form' : DataMixin.search_form 
         }
         return render(request, 'update_profile.html', context=context)
 

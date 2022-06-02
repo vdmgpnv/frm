@@ -12,7 +12,8 @@ def index(request):
         d[sec] = Thread.objects.filter(section_id=sec.pk).filter(is_open=False).annotate(cnt=Count('posts')).order_by('-cnt')[:5]
     context = {
         'sections' : DataMixin.sections,
-        'secthread' : d
+        'secthread' : d,
+        'search_form' : DataMixin.search_form
     }
     return render(request, 'arch_index.html', context=context)
 
@@ -25,6 +26,8 @@ class ThreadListView(DataMixin, ListView):
         context =  super().get_context_data(**kwargs)
         context['thread_list'] = Thread.objects.filter(section_id=self.kwargs.get('pk')).filter(is_open=False)
         context['section'] = Section.objects.get(pk=self.kwargs.get('pk'))
+        context['sections'] = self.sections
+        context['search_form'] = self.search_form
         return context
     
     
@@ -34,7 +37,8 @@ def thread_view(request, pk):
     context = {
         'sections' : DataMixin.sections,
         'posts' : posts,
-        'thread' : thread
+        'thread' : thread,
+        'search_form' : DataMixin.search_form
     }
     
     return render(request, 'arch_thread.html', context=context)

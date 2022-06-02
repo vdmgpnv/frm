@@ -1,0 +1,18 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+ {% if threads %}
+
+ {% for thread in threads %}
+    
+ <div class="thread"><a href="{% url 'thread' thread.pk %}">{{ thread.thread_name }}</a>
+     <div>Количество сообщений: {{ thread.posts.count }}</div>
+ </div>
+ {% endfor %}
+        {% else %}
+<h1>Ничего не найдено =(</h1>
+
+{% endif %}
+
+{% endblock %}

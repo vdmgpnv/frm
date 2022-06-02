@@ -1,5 +1,5 @@
 from multiprocessing import context
-from django.urls import reverse_lazy
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.db.models import Count
 from django.views.generic import ListView
@@ -10,7 +10,7 @@ from app_users.models import AdvUser
 from .models import Section, Thread, Post
 from .utils import DataMixin
 
-from .forms import PostForm, CreateThread
+from .forms import PostForm, CreateThread, SearchForm
 from .models import Post, Section, Thread
 
 # Create your views here.
@@ -18,9 +18,11 @@ def index(request):
     d = {}
     for sec in DataMixin.sections:
         d[sec] = Thread.objects.filter(section_id=sec.pk).filter(is_open=True).annotate(cnt=Count('posts')).order_by('-cnt')[:5]
+    search_form = SearchForm()
     context = {
         'sections' : DataMixin.sections,
-        'secthread' : d
+        'secthread' : d,
+        'search_form' : search_form
     }
     return render(request, 'index.html', context=context)
 
@@ -33,6 +35,8 @@ class ThreadListView(DataMixin, ListView):
         context =  super().get_context_data(**kwargs)
         context['thread_list'] = Thread.objects.filter(section_id=self.kwargs.get('pk')).filter(is_open=True)
         context['section'] = Section.objects.get(pk=self.kwargs.get('pk'))
+        context['sections'] = self.sections
+        context['search_form'] = self.search_form
         return context
     
 def thread_view(request, pk):
@@ -47,7 +51,8 @@ def thread_view(request, pk):
         'page_obj' : page_obj,
         'form' : post_form,
         'paginator' : paginator,
-        'thread' : thread
+        'thread' : thread,
+        'search_form' : DataMixin.search_form 
     }
     if request.method == 'POST':
         post_form = PostForm(request.POST)
@@ -69,7 +74,8 @@ def create_thread(request, pk):
         create_thread = CreateThread()
         context = {
         'sections' : DataMixin.sections,
-        'form' : create_thread
+        'form' : create_thread,
+        'search_form' : DataMixin.search_form 
     }
         return render(request, 'create_thread.html', context=context)
 
@@ -92,11 +98,18 @@ def update_post(request, pk):
         form = PostForm(initial={'post_text' : post.text})
         context = {
             'sections' : DataMixin.sections,
-            'form' : form 
+            'form' : form,
+            'search_form' : DataMixin.search_form 
         }
         return render(request, 'update_post.html', context)
         
             
-    
+def search_view(request):
+    form = SearchForm(request.GET)
+    if form.is_valid():
+        text = form.cleaned_data['text']
+        threads = Thread.objects.filter(thread_name__icontains=text)
+        return render(request, 'search_list.html', {'threads' : threads, 'search_form' : DataMixin.search_form, 
+                                                    'sections' : DataMixin.sections})
     
     

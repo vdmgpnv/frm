@@ -1,3 +1,4 @@
+from dataclasses import field
 from django import forms
 from .models import Post
 
@@ -16,4 +17,9 @@ class CreateThread(forms.Form):
     class Meta:
         fields = ('thread_name', 'post_text')
         
+        
+class SearchForm(forms.Form):
+    text = forms.CharField(max_length=30, label='Поиск')
     
+    class Meta:
+        fields = ('text')
