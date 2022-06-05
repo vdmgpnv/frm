@@ -16,12 +16,14 @@ class PostAdminForm(forms.ModelForm):
 class SectionAdmin(admin.ModelAdmin):
     list_display = ('id', 'section_name')
     list_display_links = ('id', 'section_name')
+    prepopulated_fields = {'slug' : ('section_name',)}
 
 
 class ThreadAdmin(admin.ModelAdmin):
     list_display = ('id', 'thread_name', 'section_id', 'is_open')
     list_filter = ('section_id',)
     list_editable = ('is_open',)
+    prepopulated_fields = {'slug' : ('thread_name',)}
     
     
 

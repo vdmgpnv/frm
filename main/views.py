@@ -1,3 +1,4 @@
+from datetime import datetime
 from multiprocessing import context
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -92,6 +93,7 @@ def update_post(request, pk):
         form = PostForm(request.POST)
         if form.is_valid():
             post.text = form.cleaned_data['post_text']
+            post.updated_at = datetime.now()
             post.save()
             return redirect(f'/thread/{post.tread_id.pk}')
     else:
