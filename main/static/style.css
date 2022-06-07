@@ -32,6 +32,11 @@ header {
     background-color: white;
   }
 
+
+.search-form *{
+  display: inline;
+}
+
   footer {
     text-align: center;
     font-size: 24px;

@@ -10,7 +10,7 @@ from app_users.models import AdvUser
 class Section(models.Model):
     section_name = models.CharField(
         max_length=30, unique=True, verbose_name='Раздел')
-    slug = models.SlugField(max_length=255,  verbose_name='URL')
+    slug = models.SlugField(max_length=255, auto_created=True, verbose_name='URL')
 
     def __str__(self) -> str:
         return self.section_name
@@ -28,7 +28,7 @@ class Thread(models.Model):
     thread_name = models.CharField(max_length=100, verbose_name='Тема')
     section_id = models.ForeignKey(
         Section, on_delete=models.CASCADE, verbose_name='Раздел')
-    slug = models.SlugField(max_length=255, verbose_name='URL')
+    slug = models.SlugField(max_length=255, auto_created=True, verbose_name='URL')
     is_open = models.BooleanField(
         verbose_name='Открыто ли обсуждение?', default=True)
 
@@ -38,6 +38,10 @@ class Thread(models.Model):
     def get_absolute_url(self):
         return reverse_lazy('thread_api', kwargs={'thread_slug' : self.slug})
     
+    def save(self, *args, **kwargs):
+        self.slug = self.thread_name.replace(' ', '-')
+        super(Thread, self).save(*args, **kwargs)
+        
 
     class Meta:
         verbose_name = 'Тему'

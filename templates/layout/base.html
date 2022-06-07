@@ -41,10 +41,10 @@
                         <li><a href="{% url 'profile' %}">Профиль</a></li>
                         <li><a href="#">Поддержать</a></li>
                     </ul>
-                    <form class="registration-form" action="{% url 'search' %}">
+                    <form class="registration-form search-form" action="{% url 'search' %}">
                         {% csrf_token %}
                         {{ search_form.as_p }}
-                        <button type="submit">Найти</button>
+                        <button class="pressed-button" type="submit">Найти</button>
                     </form>
                 </nav>
             </div>

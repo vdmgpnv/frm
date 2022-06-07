@@ -156,3 +156,9 @@ console.log(divElem)
 //textContent - берем текст из тега
 //hidden - скрыть/открыть тег
 
+
+
+var req = new XMLHttpRequest();
+req.open("GET", "http://1solitary1.pythonanywhere.com/api/v1/sections/java");
+req.send();
+
