@@ -22,8 +22,8 @@
                     <h2>Добрый день, {{ user.first_name }}!</h2>
                     <button class="pressed-button"><a href="{% url 'logout' %}">Выйти</a></button>
                     {% else %}
-                    <button class="pressed-button"><a href="{% url 'login' %}">Войти</a></button>
-                    <button class="pressed-button"><a href="{% url 'register' %}">Зарегистрироваться</a></button>
+                    <button class="pressed-button"><a href="{% url 'user_login' %}">Войти</a></button>
+                    <button class="pressed-button"><a href="{% url 'registration' %}">Зарегистрироваться</a></button>
                     {% endif %}
                 </div>
             </div>

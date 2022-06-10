@@ -1,5 +1,7 @@
 from concurrent.futures import thread
 
+from app_users.models import AdvUser
+
 from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 from .serializers import PostSerializer, PostSerializersForThreadDetail, SectionSerializer, ThreadListSerializers, ThreadSerializer, UpdatePostSerializer, UserSerializer
 from rest_framework.views import APIView
@@ -13,7 +15,7 @@ from django.db.models import Count
 
 
 class ThreadListView(APIView):
-
+    
     def get(self, request, sec_slug):
         section = Section.objects.get(slug=sec_slug)
         threads = Thread.objects.filter(section_id__slug=sec_slug)
@@ -61,6 +63,11 @@ class UserView(APIView):
         user = request.user
         serializer = UserSerializer(user)
         return Response(serializer.data)     
+
+class UpdateUserView(UpdateAPIView):
+    queryset = AdvUser.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated,]
 
 @api_view(['GET', ])
 def index_view(request):

@@ -70,4 +70,15 @@ class Post(models.Model):
     def __str__(self) -> str:
         return self.text[:10] + '...'
 
+
+class Image(models.Model):
+    post_id = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images', verbose_name='ID поста')
+    img = models.ImageField(upload_to='posts/', verbose_name='Изображение')
     
+    class Meta:
+        verbose_name = 'Изображение'
+        verbose_name_plural = 'Изображения'
+        
+    def __str__(self):
+        return f'Картинка {self.pk} для новости: {self.post_id}'
+       
