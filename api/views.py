@@ -56,7 +56,6 @@ class UpdatePostAPIView(UpdateAPIView):
     serializer_class = UpdatePostSerializer
     permission_classes = [IsOwnerOrReadOnly,]
     
-
 class UserView(APIView):
     
     def get(self, request):
@@ -68,7 +67,30 @@ class UpdateUserView(UpdateAPIView):
     queryset = AdvUser.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated,]
-
+    
+    
+ 
+@api_view(['POST', ])
+@permission_classes([IsAuthenticated,])   
+def add_like_view(request, pk):
+    post = Post.objects.get(pk=pk)
+    
+    is_liked = False
+        
+    for like in post.likes.all():
+        if like == request.user:
+            is_liked = True
+            break
+            
+    if is_liked:
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+    serializer = PostSerializersForThreadDetail(post)      
+    
+    return Response(serializer.data)
+    
+    
 @api_view(['GET', ])
 def index_view(request):
     sections = Section.objects.all()

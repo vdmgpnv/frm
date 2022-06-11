@@ -1,10 +1,8 @@
-from tabnanny import verbose
-from ckeditor.fields import RichTextField
-
-from django.db import models
-from django.urls import reverse, reverse_lazy
 
 from app_users.models import AdvUser
+from ckeditor.fields import RichTextField
+from django.db import models
+from django.urls import reverse, reverse_lazy
 
 
 class Section(models.Model):
@@ -57,8 +55,7 @@ class Post(models.Model):
         auto_now_add=True, verbose_name='Опубликовано')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Изменено')
     text = RichTextField(max_length=1000, verbose_name='Текст сообщения')
-    likes = models.IntegerField(default=0)
-    dislikes = models.IntegerField(default=0)
+    likes = models.ManyToManyField(AdvUser, blank=True, related_name='likes')
 
     def show_post(self):
         return self.text[0:100] + '...'

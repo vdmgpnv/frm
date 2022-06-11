@@ -27,11 +27,15 @@
             <div class="post-info">
                 Опубликованно : {{ post.created_at }}
                 {% if post.user_id.pk == user.pk or user.is_staff %}
-                <button><a href="{% url 'delete' post.pk %}">Удалить</a></button>
+                <button class="pressed-button"><a href="{% url 'delete' post.pk %}">Удалить</a></button>
                 {% endif %}
                 {% if post.user_id.pk == user.pk %}
-                <button><a href="{% url 'edit_post' post.pk %}">Изменить</a></button>
+                <button class="pressed-button"><a href="{% url 'edit_post' post.pk %}">Изменить</a></button>
                 {% endif %}
+                <form class="like-form" action="{% url 'like' post.pk %}" method="post">
+                    {% csrf_token %}
+                    <button class="pressed-button" type="submit">Нравится:</button> {{ post.likes.count }}
+                </form>
             </div>
        </div>
     </div>
@@ -78,6 +82,6 @@
     </form>
 </div>
 {% else %}
-<h2>Отправлять сообщения могут только зарегистрированные пользователи, <a href="{% url 'login' %}">Войти</a></h2>
+<h2>Отправлять сообщения могут только зарегистрированные пользователи, <a href="{% url 'user_login' %}">Войти</a></h2>
 {% endif %}
 {% endblock %}

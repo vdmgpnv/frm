@@ -1,9 +1,7 @@
-from dataclasses import field
-from types import MethodType
-from rest_framework import serializers
 from app_users.models import AdvUser
-from main.models import Section, Thread, Post, Image
 from djoser.serializers import UserCreateSerializer
+from main.models import Image, Post, Section, Thread
+from rest_framework import serializers
 
 
 class SectionSerializer(serializers.ModelSerializer):
@@ -14,7 +12,6 @@ class SectionSerializer(serializers.ModelSerializer):
         fields = ('section_name', 'section_link')
 
 
-
 class PostSerializersForThreadDetail(serializers.ModelSerializer):
     tread_id = serializers.StringRelatedField()
     user_id = serializers.StringRelatedField()
@@ -23,19 +20,21 @@ class PostSerializersForThreadDetail(serializers.ModelSerializer):
     user_register_date = serializers.DateTimeField(
         format='%d.%m.%Y', source='user_id.date_joined')
     images = serializers.SerializerMethodField()
+    likes = serializers.SerializerMethodField()
     class Meta:
         model = Post
         fields = ('id', 'text', 'tread_id', 'user_id', 'created_at',
-                  'updated_at', 'user_register_date', 'images')
-        
+                  'updated_at', 'user_register_date', 'likes', 'images')
+
     def get_images(self, obj):
         img_dict = {}
         for img in obj.images.all():
             img_dict[img.id] = img.img.url
         return img_dict
-            
+    
+    def get_likes(self, obj):
+        return obj.likes.count()
 
-        
 
 class ThreadListSerializers(serializers.ModelSerializer):
     section_name = serializers.StringRelatedField(
@@ -53,7 +52,6 @@ class ThreadListSerializers(serializers.ModelSerializer):
         return obj.posts.count()
 
 
-
 class UpdatePostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
@@ -68,7 +66,8 @@ class ThreadSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    date_joined = serializers.DateTimeField(format='%d.%m.%Y',read_only=True)
+    date_joined = serializers.DateTimeField(format='%d.%m.%Y', read_only=True)
+
     class Meta:
         model = AdvUser
         fields = ('id', 'username', 'first_name',
@@ -77,14 +76,14 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserCreationSerializer(UserCreateSerializer):
     id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = AdvUser
-        fields = ('id', 'username', 'first_name', 'last_name', 'password', 'avatar', 'email', 'info')
-        
+        fields = ('id', 'username', 'first_name', 'last_name',
+                  'password', 'avatar', 'email', 'info')
 
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('user_id', 'tread_id', 'text')
-        

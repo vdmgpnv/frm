@@ -20,7 +20,7 @@
                 <div class="hello-text">
                     {% if user.is_authenticated %}
                     <h2>Добрый день, {{ user.first_name }}!</h2>
-                    <button class="pressed-button"><a href="{% url 'logout' %}">Выйти</a></button>
+                    <button class="pressed-button"><a href="{% url 'user_logout' %}">Выйти</a></button>
                     {% else %}
                     <button class="pressed-button"><a href="{% url 'user_login' %}">Войти</a></button>
                     <button class="pressed-button"><a href="{% url 'registration' %}">Зарегистрироваться</a></button>

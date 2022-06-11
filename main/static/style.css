@@ -332,3 +332,7 @@ font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   text-align: center;
   background-color: none;
 }
+
+.like-form {
+  display: inline;
+}

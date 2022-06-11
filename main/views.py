@@ -1,10 +1,12 @@
+from audioop import reverse
 from datetime import datetime
-from multiprocessing import context
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.db.models import Count
+from django.views import View
 from django.views.generic import ListView
 from django.core.paginator import Paginator
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 from app_users.models import AdvUser
@@ -122,3 +124,23 @@ def search_view(request):
         threads = Thread.objects.filter(thread_name__icontains=text)
         return render(request, 'search_list.html', {'threads': threads, 'search_form': DataMixin.search_form,
                                                     'sections': DataMixin.sections})
+
+
+class AddLike(LoginRequiredMixin, View):
+    
+    def post(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        
+        is_liked = False
+        
+        for like in post.likes.all():
+            if like == request.user:
+                is_liked = True
+                break
+            
+        if is_liked:
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+            
+        return redirect(f'/thread/{post.tread_id.pk}')
