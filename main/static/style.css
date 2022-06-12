@@ -336,3 +336,7 @@ font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 .like-form {
   display: inline;
 }
+
+.heart {
+  width: 20px;
+}

@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.generics import CreateAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView
 from main.models import Post, Section, Thread
 from rest_framework.decorators import api_view, permission_classes
 from django.db.models import Count
@@ -55,9 +55,10 @@ class UpdatePostAPIView(UpdateAPIView):
     queryset = Post.objects.all()
     serializer_class = UpdatePostSerializer
     permission_classes = [IsOwnerOrReadOnly,]
+       
+    
     
 class UserView(APIView):
-    
     def get(self, request):
         user = request.user
         serializer = UserSerializer(user)
@@ -68,7 +69,16 @@ class UpdateUserView(UpdateAPIView):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated,]
     
+
+class PostListView(ListAPIView):
+    serializer_class = PostSerializersForThreadDetail
     
+    
+    def get_queryset(self):
+        posts = Post.objects.filter(tread_id__slug = self.kwargs['thread_slug'])
+        return posts
+    
+
  
 @api_view(['POST', ])
 @permission_classes([IsAuthenticated,])   

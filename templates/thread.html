@@ -33,8 +33,12 @@
                 <button class="pressed-button"><a href="{% url 'edit_post' post.pk %}">Изменить</a></button>
                 {% endif %}
                 <form class="like-form" action="{% url 'like' post.pk %}" method="post">
-                    {% csrf_token %}
-                    <button class="pressed-button" type="submit">Нравится:</button> {{ post.likes.count }}
+                    {% csrf_token %}  
+                        {% if user in post.likes.all %}
+                        <button type="submit"><img class="heart" src="{% static 'img/heart-field.svg' %}" alt=""> {{ post.likes.count }}</button> 
+                        {% else %}
+                        <button type="submit"><img class="heart" src="{% static 'img/heart.svg' %}" alt=""> {{ post.likes.count }}</button> 
+                        {% endif %}
                 </form>
             </div>
        </div>

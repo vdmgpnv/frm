@@ -143,4 +143,4 @@ class AddLike(LoginRequiredMixin, View):
         else:
             post.likes.add(request.user)
             
-        return redirect(f'/thread/{post.tread_id.pk}')
+        return redirect(request.META.get('HTTP_REFERER'))
