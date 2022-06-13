@@ -35,9 +35,9 @@
                 <form class="like-form" action="{% url 'like' post.pk %}" method="post">
                     {% csrf_token %}  
                         {% if user in post.likes.all %}
-                        <button type="submit"><img class="heart" src="{% static 'img/heart-field.svg' %}" alt=""> {{ post.likes.count }}</button> 
+                        <button class="like-button" type="submit"><img class="heart" src="{% static 'img/heart-field.svg' %}" alt=""> {{ post.likes.count }}</button> 
                         {% else %}
-                        <button type="submit"><img class="heart" src="{% static 'img/heart.svg' %}" alt=""> {{ post.likes.count }}</button> 
+                        <button class="like-button" type="submit"><img class="heart" src="{% static 'img/heart.svg' %}" alt=""> {{ post.likes.count }}</button> 
                         {% endif %}
                 </form>
             </div>

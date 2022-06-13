@@ -1,6 +1,6 @@
 from app_users.models import AdvUser
 from djoser.serializers import UserCreateSerializer
-from main.models import Image, Post, Section, Thread
+from main.models import Image, Post, Section, Thread, BadWords
 from rest_framework import serializers
 
 
@@ -87,3 +87,11 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('user_id', 'tread_id', 'text')
+
+
+    def validate_text(self, value):
+        for val in value.split():
+            for word in BadWords.objects.all():
+                if value.lower() == word.word :
+                    raise serializers.ValidationError('В сообщениях не допускается мат!')
+        return val

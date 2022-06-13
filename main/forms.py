@@ -1,13 +1,25 @@
-from dataclasses import field
 from django import forms
+from django.core.exceptions import ValidationError
 from .models import Post
+from .models import BadWords
+
 
 class PostForm(forms.ModelForm):
     post_text = forms.CharField(label='Description',
                    widget=forms.Textarea(attrs={'class': 'ckeditor'}))
     class Meta:
         model = Post
-        fields = ('post_text',)    
+        fields = ('post_text',)
+    '''      
+   def clean_text(self):
+        val = self.cleaned_data['post_text']
+        for value in val.split():
+            for word in BadWords.objects.all():
+                if value.lower() == word.word :
+                    raise ValidationError('В сообщениях не допускается мат!')
+        return val
+        '''
+                
     
 class CreateThread(forms.Form):
     thread_name = forms.CharField(max_length=100,  label='Название темы')

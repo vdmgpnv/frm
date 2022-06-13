@@ -340,3 +340,12 @@ font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 .heart {
   width: 20px;
 }
+
+.heart:hover {
+width: 30px;
+}
+
+.like-button {
+  border: none;
+  background: none;
+}

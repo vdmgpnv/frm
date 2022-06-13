@@ -5,7 +5,7 @@ from app_users.models import AdvUser
 from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 from .serializers import PostSerializer, PostSerializersForThreadDetail, SectionSerializer, ThreadListSerializers, ThreadSerializer, UpdatePostSerializer, UserSerializer
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView
@@ -72,7 +72,7 @@ class UpdateUserView(UpdateAPIView):
 
 class PostListView(ListAPIView):
     serializer_class = PostSerializersForThreadDetail
-    
+    permission_classes = [IsAuthenticatedOrReadOnly,]
     
     def get_queryset(self):
         posts = Post.objects.filter(tread_id__slug = self.kwargs['thread_slug'])

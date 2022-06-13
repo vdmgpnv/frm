@@ -79,3 +79,10 @@ class Image(models.Model):
     def __str__(self):
         return f'Картинка {self.pk} для новости: {self.post_id}'
        
+       
+class BadWords(models.Model):
+    word = models.CharField(max_length=255)
+    
+    class Meta:
+        verbose_name = 'Плохое слово'
+        verbose_name_plural = 'Плохие слова'
