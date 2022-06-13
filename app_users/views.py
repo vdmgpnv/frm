@@ -50,7 +50,7 @@ def profile(request):
 
 
 def update_profile(request):
-    user = AdvUser.objects.get(pk=request.user.pk)
+    user = request.user
     if request.method == 'POST':
         form = UpdateProfileForm(request.POST, request.FILES)
         if form.is_valid():

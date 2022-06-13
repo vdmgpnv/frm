@@ -1,23 +1,26 @@
-from concurrent.futures import thread
-
 from app_users.models import AdvUser
+from django.db.models import Count
+from django.shortcuts import get_object_or_404
+from main.models import Post, Section, Thread
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView
+from rest_framework.permissions import (IsAuthenticated,
+                                        IsAuthenticatedOrReadOnly)
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
-from .serializers import PostSerializer, PostSerializersForThreadDetail, SectionSerializer, ThreadListSerializers, ThreadSerializer, UpdatePostSerializer, UserSerializer
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView
-from main.models import Post, Section, Thread
-from rest_framework.decorators import api_view, permission_classes
-from django.db.models import Count
+from .serializers import (PostSerializer, PostSerializersForThreadDetail,
+                          SectionSerializer, ThreadListSerializers,
+                          ThreadSerializer, UpdatePostSerializer,
+                          UserSerializer)
 
 
 class ThreadListView(APIView):
     
     def get(self, request, sec_slug):
-        section = Section.objects.get(slug=sec_slug)
+        section = get_object_or_404(Section, slug=sec_slug)
         threads = Thread.objects.filter(section_id__slug=sec_slug)
         sec_serializer = SectionSerializer(section).data
         serializer = ThreadListSerializers(threads, many=True).data
@@ -27,7 +30,7 @@ class ThreadListView(APIView):
 class ThreadDetailView(APIView):
 
     def get(self, request, thread_slug):
-        thread = Thread.objects.get(slug=thread_slug)
+        thread = get_object_or_404(Thread, slug=thread_slug)
         posts = Post.objects.filter(tread_id__slug=thread_slug)
         serializer = PostSerializersForThreadDetail(posts, many=True)
         return Response({'thread': thread.thread_name, 'posts': serializer.data})
@@ -35,7 +38,7 @@ class ThreadDetailView(APIView):
     
     @permission_classes([IsAuthenticated,])
     def post(self, request, thread_slug):
-        thread = Thread.objects.get(slug=thread_slug)
+        thread = get_object_or_404(Thread, slug=thread_slug)
         user = request.user
         request.data.update({'user_id': user.pk, 'tread_id': thread.pk})
         serializer = PostSerializer(data=request.data)
@@ -83,7 +86,7 @@ class PostListView(ListAPIView):
 @api_view(['POST', ])
 @permission_classes([IsAuthenticated,])   
 def add_like_view(request, pk):
-    post = Post.objects.get(pk=pk)
+    post = get_object_or_404(Post, pk=pk)
     
     is_liked = False
         

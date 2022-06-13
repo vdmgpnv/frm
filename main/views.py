@@ -7,6 +7,7 @@ from django.views import View
 from django.views.generic import ListView
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
 
 
 from app_users.models import AdvUser
@@ -49,7 +50,7 @@ class ThreadListView(DataMixin, ListView):
 
 def thread_view(request, pk):
     posts = Post.objects.filter(tread_id=pk)
-    thread = Thread.objects.get(pk=pk)
+    thread = get_object_or_404(Thread, pk=pk)
     post_form = PostForm
     paginator = Paginator(posts, 5)
     page_number = request.GET.get('page')
@@ -92,14 +93,14 @@ def create_thread(request, pk):
 
 
 def delete_post(request, pk):
-    post = Post.objects.get(pk=pk)
-    thread = Thread.objects.get(pk=post.tread_id.pk)
+    post = get_object_or_404(Post, pk=pk)
+    thread = get_object_or_404(Thread, pk=post.tread_id.pk)
     post.delete()
     return redirect('thread', thread.pk)
 
 
 def update_post(request, pk):
-    post = Post.objects.get(pk=pk)
+    post = get_object_or_404(Post, pk=pk)
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -129,7 +130,7 @@ def search_view(request):
 class AddLike(LoginRequiredMixin, View):
     
     def post(self, request, pk):
-        post = Post.objects.get(pk=pk)
+        post = get_object_or_404(Post, pk=pk)
         
         is_liked = False
         
