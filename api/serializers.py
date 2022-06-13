@@ -57,6 +57,12 @@ class UpdatePostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ('text',)
 
+    def validate_text(self, value):
+        for val in value.split():
+            for word in BadWords.objects.all():
+                if value.lower() == word.word :
+                    raise serializers.ValidationError('В сообщениях не допускается мат!')
+        return val
 
 class ThreadSerializer(serializers.ModelSerializer):
 

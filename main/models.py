@@ -1,4 +1,4 @@
-
+from forum.settings import ALLOWED_HOSTS
 from app_users.models import AdvUser
 from ckeditor.fields import RichTextField
 from django.db import models
@@ -78,6 +78,9 @@ class Image(models.Model):
         
     def __str__(self):
         return f'Картинка {self.pk} для новости: {self.post_id}'
+    
+    
+    
        
        
 class BadWords(models.Model):
