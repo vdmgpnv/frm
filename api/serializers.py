@@ -1,3 +1,4 @@
+from dataclasses import fields
 from app_users.models import AdvUser
 from djoser.serializers import UserCreateSerializer
 from main.models import Image, Post, Section, Thread, BadWords
@@ -34,6 +35,11 @@ class PostSerializersForThreadDetail(serializers.ModelSerializer):
     
     def get_likes(self, obj):
         return obj.likes.count()
+
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = ('post_id', 'img')
 
 
 class ThreadListSerializers(serializers.ModelSerializer):

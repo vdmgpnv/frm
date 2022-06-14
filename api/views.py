@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
-from .serializers import (PostSerializer, PostSerializersForThreadDetail,
+from .serializers import (ImageSerializer, PostSerializer, PostSerializersForThreadDetail,
                           SectionSerializer, ThreadListSerializers,
                           ThreadSerializer, UpdatePostSerializer,
                           UserSerializer)
@@ -48,7 +48,6 @@ class ThreadDetailView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_204_NO_CONTENT)
 
-
 class CreateThread(CreateAPIView):
     serializer_class = ThreadSerializer
     permission_classes = [IsAuthenticated,]
@@ -58,8 +57,7 @@ class UpdatePostAPIView(UpdateAPIView):
     queryset = Post.objects.all()
     serializer_class = UpdatePostSerializer
     permission_classes = [IsOwnerOrReadOnly,]
-       
-    
+          
     
 class UserView(APIView):
     def get(self, request):
@@ -81,7 +79,6 @@ class PostListView(ListAPIView):
         posts = Post.objects.filter(tread_id__slug = self.kwargs['thread_slug'])
         return posts
     
-
  
 @api_view(['POST', ])
 @permission_classes([IsAuthenticated,])   
@@ -114,3 +111,15 @@ def index_view(request):
         data.update({f'section{sec.section_name}': SectionSerializer(sec).data,
                      f'threads{sec.section_name}': ThreadListSerializers(threads, many=True).data})
     return Response(data)
+
+
+
+@api_view(['POST',])
+def add_image(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    request.data.update({'post_id' : pk})
+    serializer = ImageSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+            
+    return Response(serializer.data)
