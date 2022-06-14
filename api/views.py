@@ -111,6 +111,6 @@ def index_view(request):
     for sec in sections:
         threads = Thread.objects.filter(section_id=sec.pk).filter(
             is_open=True).annotate(cnt=Count('posts')).order_by('-cnt')[:5]
-        data.update({f'section{sec.section_name}': SectionSerializer(
-            sec).data, f'threads{sec.section_name}': ThreadListSerializers(threads, many=True).data})
+        data.update({f'section{sec.section_name}': SectionSerializer(sec).data,
+                     f'threads{sec.section_name}': ThreadListSerializers(threads, many=True).data})
     return Response(data)

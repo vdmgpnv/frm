@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.core.signing import BadSignature
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
@@ -46,7 +47,11 @@ class UserLogoutView(LogoutView):
 
 @login_required
 def profile(request):
-    return render(request, 'profile.html', {'sections': DataMixin.sections, 'search_form' : DataMixin.search_form })
+    context = {
+        'sections': DataMixin.sections,
+        'search_form' : DataMixin.search_form
+    }
+    return render(request, 'profile.html', context=context)
 
 
 def update_profile(request):

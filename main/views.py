@@ -1,21 +1,17 @@
-from audioop import reverse
-from datetime import datetime
-from django.http import HttpResponse
-from django.shortcuts import redirect, render
-from django.db.models import Count
-from django.views import View
-from django.views.generic import ListView
-from django.core.paginator import Paginator
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404
 
+from datetime import datetime
 
 from app_users.models import AdvUser
-from .models import Section, Thread, Post
-from .utils import DataMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
+from django.db.models import Count
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views import View
+from django.views.generic import ListView
 
-from .forms import PostForm, CreateThread, SearchForm
+from .forms import CreateThread, PostForm, SearchForm
 from .models import Post, Section, Thread
+from .utils import DataMixin
 
 # Create your views here.
 
@@ -66,8 +62,9 @@ def thread_view(request, pk):
     if request.method == 'POST':
         post_form = PostForm(request.POST)
         if post_form.is_valid():
-            Post.objects.create(user_id=AdvUser.objects.get(pk=request.user.pk), tread_id=Thread.objects.get(
-                pk=pk), text=post_form.cleaned_data['post_text'])
+            Post.objects.create(user_id=AdvUser.objects.get(pk=request.user.pk),
+                                tread_id=Thread.objects.get(pk=pk),
+                                text=post_form.cleaned_data['post_text'])
             return redirect(f'/thread/{pk}')
     else:
         return render(request, 'thread.html', context=context)
@@ -77,9 +74,11 @@ def create_thread(request, pk):
     if request.method == 'POST':
         create_thread = CreateThread(request.POST)
         if create_thread.is_valid():
-            thread = Thread.objects.create(section_id=Section.objects.get(
-                pk=pk), thread_name=create_thread.cleaned_data['thread_name'])
-            Post.objects.create(user_id=request.user, tread_id=thread,
+            thread = Thread.objects.create(
+                section_id=Section.objects.get(pk=pk),
+                thread_name=create_thread.cleaned_data['thread_name'])
+            Post.objects.create(user_id=request.user,
+                                tread_id=thread,
                                 text=create_thread.cleaned_data['post_text'])
             return redirect(f'/thread/{thread.pk}')
     else:
@@ -123,8 +122,11 @@ def search_view(request):
     if form.is_valid():
         text = form.cleaned_data['text']
         threads = Thread.objects.filter(thread_name__icontains=text)
-        return render(request, 'search_list.html', {'threads': threads, 'search_form': DataMixin.search_form,
-                                                    'sections': DataMixin.sections})
+        context = {'threads': threads,
+                   'search_form': DataMixin.search_form,
+                   'sections': DataMixin.sections
+                   }
+        return render(request, 'search_list.html', context=context)
 
 
 class AddLike(LoginRequiredMixin, View):
