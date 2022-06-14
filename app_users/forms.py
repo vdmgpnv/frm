@@ -24,7 +24,7 @@ class RegistrationForm(UserCreationForm):
     
     class Meta:
         model = AdvUser
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'avatar')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1')
         
         
 class UpdateProfileForm(forms.ModelForm):
